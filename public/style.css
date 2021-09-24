@@ -12,6 +12,7 @@ body {
 .container {
 	padding: 0;
 	margin-top: 40px;
+	margin: 0, auto;
 }
 
 h3 {

@@ -25,6 +25,32 @@ app.get("/api/hello", function (req, res) {
 });
 
 
+app.get("/api/:date?", (req,res) => {
+  //error message for invalid formats
+  //parse returns milliseconds
+  //also check for normal number inputs
+  let input = req.params.date
+  if(!Date.parse(input) && !Number(input)){
+    return res.send({error:"Invalid Date"});
+  }
+  //use regex to test for (-) which is normal input dates
+  //to then work with milliseconds
+  //and check if it's a numbers
+  else if(!(/[-]/.test(input)) && Number(input)){
+    let date = new Date(Number(input));
+    res.json({
+      unix: date.getTime(),
+      utc: date.toUTCString()
+    });
+  }
+  //for normal date format
+  let date = new Date(input);
+  let datesOutput = {
+    unix: date.getTime(),
+    utc: date.toUTCString()
+  }
+  res.json(datesOutput);
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
